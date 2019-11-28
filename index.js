@@ -53,9 +53,16 @@ const start = getPixel(width / 2, height / 2);
 const q = [start];
 const seen = {};
 
+const max = width * height;
 const before = performance.now();
 while (q.length > 0) {
   const top = q.unshift();
+
+  max--;
+  if (max < 0) {
+    console.log("buhu");
+    break;
+  }
 
   const idx = top.x + ',' + top.y;
   if (idx in seen) {
@@ -68,7 +75,7 @@ while (q.length > 0) {
       const nx = top.x + dx;
       const ny = top.y + dy;
       if (0 <= nx && nx < width && 0 <= ny && ny < height) {
-        const nb = getPixel(top.x + dx, top.y + dy);
+        const nb = getPixel(nx, ny);
         q.push(nb);
       }
     }
