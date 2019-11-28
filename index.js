@@ -63,6 +63,9 @@ while (q.length > 0) {
     console.log("buhu");
     break;
   }
+  if (max % 1000 === 0) {
+    console.log("max", max);
+  }
 
   const idx = top.x + ',' + top.y;
   if (idx in seen) {
