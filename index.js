@@ -56,50 +56,71 @@ const seen = {};
 
 start.d = 0.0;
 start.sr(0);
+start.sg(0);
+start.sb(0);
 start.sa(255);
 
 // const max = width * height + 100;
+const f = (x) => Math.max(0, Math.min(255, x));
 const before = performance.now();
 while (q.length > 0) {
   const top = q.pop();
 
-  // max--;
-  // if (max < 0) {
-  //   console.log("buhu");
-  //   break;
-  // }
-  // if (max % 10000 === 0) {
-  //   console.log("max", max);
-  // }
-
-  // const idx = top.x + ',' + top.y;
-  // if (idx in seen) {
-  //   continue;
-  // }
-  // seen[idx] = true;
-
-  const q2 = [];
-  for (let dx = -1; dx <= 1; dx++) {
-    for (let dy = -1; dy <= 1; dy++) {
-      if (dx === 0 && dy === 0) {
-        continue;
-      }
+  const q3 = [];
+  const k2 = 5;
+  for (let dx = -k2; dx <= k2; dx++) {
+    for (let dy = -k2; dy <= k2; dy++) {
       const nx = top.x + dx;
       const ny = top.y + dy;
       if (0 <= nx && nx < width && 0 <= ny && ny < height) {
-        const nb = getPixel(nx, ny);
-        const idx = nb.x + ',' + nb.y;
-        if (!(idx in seen)) {
-          seen[idx] = true;
-          q2.push(nb);
-          const d = Math.sqrt(dx * dx + dy * dy);
-          nb.d = top.d + d + 15.0 * (Math.random() - 0.2);
-          // nb.sr(top.r() + 20.0 * 2.0 * (Math.random() - 0.5));
-          const df = 1.0;
-          nb.sr(top.r() + df * Math.random() * (nb.d - top.d));
-          nb.sg(top.g() + df * Math.random() * (nb.d - top.d));
-          nb.sb(top.b() + df * Math.random() * (nb.d - top.d));
-          nb.sa(255);
+        const d = Math.sqrt(dx * dx + dy * dy);
+        if (d <= k2) {
+          const nb = getPixel(nx, ny);
+          const idx = nb.x + ',' + nb.y;
+          if (!(idx in seen)) {
+            // if (d < k2) {
+            //   seen[idx] = true;
+            // }
+            const df = 1.0;
+            q3.push(nb);
+            const g = x => x; //Math.random() * 255;
+            nb.sr(g(f(top.r() + df * Math.random())));
+            nb.sg(g(f(top.g() + df * Math.random())));
+            nb.sb(g(f(top.b() + df * Math.random())));
+            nb.sa(255);
+            // nb.sr(top.r());
+          }
+        }
+      }
+    }
+  }
+
+  while (q3.length > 0) {
+    const top = q3.pop();
+    const q2 = [];
+    const k = 1;
+    for (let dx = -k; dx <= k; dx++) {
+      for (let dy = -k; dy <= k; dy++) {
+        if (dx === 0 && dy === 0) {
+          continue;
+        }
+        const nx = top.x + dx;
+        const ny = top.y + dy;
+        if (0 <= nx && nx < width && 0 <= ny && ny < height) {
+          const nb = getPixel(nx, ny);
+          const idx = nb.x + ',' + nb.y;
+
+          if (!(idx in seen)) {
+            seen[idx] = true;
+            const d = Math.sqrt(dx * dx + dy * dy);
+            nb.d = top.d + d + 25.0 * (Math.random() - 0.2);
+            q2.push(nb);
+            // const df = 1.0;
+            // nb.sr(f(top.r() + df * Math.random() * (nb.d - top.d)));
+            // nb.sg(f(top.g() + df * Math.random() * (nb.d - top.d)));
+            // nb.sb(f(top.b() + df * Math.random() * (nb.d - top.d)));
+            // nb.sa(255);
+          }
         }
       }
     }
@@ -113,8 +134,11 @@ while (q.length > 0) {
 for (let x = 0; x < width; x++) {
   for (let y = 0; y < height; y++) {
     const p = getPixel(x, y);
-    const rf = 2.0;
-    p.sr(p.r() * rf);
+    const rf = 5.0;
+    const rk = 0.0;
+    p.sr(f(p.r() * rf + rk));
+    p.sg(f(p.g() * rf + rk));
+    p.sb(f(p.b() * rf + rk));
   }
 }
 
@@ -123,8 +147,5 @@ const p = document.createElement(p);
 p.innerHTML = 'time: ' + Math.round(after - before) + 'ms';
 document.body.appendChild(document.createElement('br'));
 document.body.appendChild(p);
-// start.sr(255);
-// start.sa(255);
-
 
 ctx.putImageData(imageData, 0, 0);
