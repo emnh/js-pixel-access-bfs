@@ -3,6 +3,7 @@
   "version": "0.0.0",
   "private": true,
   "dependencies": {
-    "pixi.js": "^5.2.0"
+    "pixi.js": "5.2.0",
+    "tinyqueue": "^2.0.3"
   }
 }
