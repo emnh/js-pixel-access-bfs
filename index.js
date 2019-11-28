@@ -12,6 +12,8 @@ const ctx = canvas.getContext('2d');
 
 const width = 640;
 const height = 480;
+//const width = window.innerWidth;
+//const height = window.innerHeight;
 canvas.width = width;
 canvas.height = height;
 
@@ -68,44 +70,54 @@ while (q.length > 0) {
 
   const q3 = [];
   const k2 = 5;
-  for (let dx = -k2; dx <= k2; dx++) {
-    for (let dy = -k2; dy <= k2; dy++) {
-      const nx = top.x + dx;
-      const ny = top.y + dy;
-      if (0 <= nx && nx < width && 0 <= ny && ny < height) {
-        const d = Math.sqrt(dx * dx + dy * dy);
-        if (d <= k2) {
-          const nb = getPixel(nx, ny);
-          const idx = nb.x + ',' + nb.y;
-          if (!(idx in seen)) {
-            // if (d < k2) {
-            //   seen[idx] = true;
-            // }
-            const df = 1.0;
-            q3.push(nb);
-            const g = x => x; //Math.random() * 255;
-            nb.sr(g(f(top.r() + df * Math.random())));
-            nb.sg(g(f(top.g() + df * Math.random())));
-            nb.sb(g(f(top.b() + df * Math.random())));
-            nb.sa(255);
-            // nb.sr(top.r());
-          }
-        }
-      }
-    }
-  }
 
+  q3 = [top];
+  // const rr = Math.random();
+  // const rg = Math.random();
+  // const rb = Math.random();
+
+  // for (let dx = -k2; dx <= k2; dx++) {
+  //   for (let dy = -k2; dy <= k2; dy++) {
+  //     const nx = top.x + dx;
+  //     const ny = top.y + dy;
+
+  //     if (0 <= nx && nx < width && 0 <= ny && ny < height) {
+  //       const d = Math.sqrt(dx * dx + dy * dy);
+  //       if (d < k2) {
+  //         const nb = getPixel(nx, ny);
+  //         const idx = nb.x + ',' + nb.y;
+  //         if (!(idx in seen)) {
+  //           // seen[idx] = true;
+
+  //           const df = 1.0;
+  //           nb.d = top.d + 1.0 * d;
+  //           // nb.sr(f(top.r() + df * Math.random() * Math.abs(nb.d - top.d)));
+  //           // nb.sg(f(top.g() + df * Math.random() * Math.abs(nb.d - top.d)));
+  //           // nb.sb(f(top.b() + df * Math.random() * Math.abs(nb.d - top.d)));
+  //           // nb.sr(255 * rr);
+  //           // nb.sg(255 * rg);
+  //           // nb.sb(255 * rb);
+  //           // nb.sa(255);
+
+  //           q3.push(nb);
+  //         }
+  //       }
+  //     }
+  //   }
+  // }
+
+  // q3.sort((a, b) => b.d - a.d);
+  const q2 = [];
   while (q3.length > 0) {
-    const top = q3.pop();
-    const q2 = [];
+    const top2 = q3.pop();
     const k = 1;
     for (let dx = -k; dx <= k; dx++) {
       for (let dy = -k; dy <= k; dy++) {
         if (dx === 0 && dy === 0) {
           continue;
         }
-        const nx = top.x + dx;
-        const ny = top.y + dy;
+        const nx = top2.x + dx;
+        const ny = top2.y + dy;
         if (0 <= nx && nx < width && 0 <= ny && ny < height) {
           const nb = getPixel(nx, ny);
           const idx = nb.x + ',' + nb.y;
@@ -113,13 +125,13 @@ while (q.length > 0) {
           if (!(idx in seen)) {
             seen[idx] = true;
             const d = Math.sqrt(dx * dx + dy * dy);
-            nb.d = top.d + d + 25.0 * (Math.random() - 0.2);
+            nb.d = top2.d + d + 25.0 * (Math.random() - 0.2);
+            const df = 1.0;
+            nb.sr(f(top2.r() + df * Math.random() * (nb.d - top2.d)));
+            nb.sg(f(top2.g() + df * Math.random() * (nb.d - top2.d)));
+            nb.sb(f(top2.b() + df * Math.random() * (nb.d - top2.d)));
+            nb.sa(255);
             q2.push(nb);
-            // const df = 1.0;
-            // nb.sr(f(top.r() + df * Math.random() * (nb.d - top.d)));
-            // nb.sg(f(top.g() + df * Math.random() * (nb.d - top.d)));
-            // nb.sb(f(top.b() + df * Math.random() * (nb.d - top.d)));
-            // nb.sa(255);
           }
         }
       }
