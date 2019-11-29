@@ -62,7 +62,6 @@ start.sg(0);
 start.sb(0);
 start.sa(255);
 
-// const max = width * height + 100;
 const f = (x) => Math.max(0, Math.min(255, x));
 const before = performance.now();
 while (q.length > 0) {
@@ -72,41 +71,7 @@ while (q.length > 0) {
   const k2 = 5;
 
   q3 = [top];
-  // const rr = Math.random();
-  // const rg = Math.random();
-  // const rb = Math.random();
 
-  // for (let dx = -k2; dx <= k2; dx++) {
-  //   for (let dy = -k2; dy <= k2; dy++) {
-  //     const nx = top.x + dx;
-  //     const ny = top.y + dy;
-
-  //     if (0 <= nx && nx < width && 0 <= ny && ny < height) {
-  //       const d = Math.sqrt(dx * dx + dy * dy);
-  //       if (d < k2) {
-  //         const nb = getPixel(nx, ny);
-  //         const idx = nb.x + ',' + nb.y;
-  //         if (!(idx in seen)) {
-  //           // seen[idx] = true;
-
-  //           const df = 1.0;
-  //           nb.d = top.d + 1.0 * d;
-  //           // nb.sr(f(top.r() + df * Math.random() * Math.abs(nb.d - top.d)));
-  //           // nb.sg(f(top.g() + df * Math.random() * Math.abs(nb.d - top.d)));
-  //           // nb.sb(f(top.b() + df * Math.random() * Math.abs(nb.d - top.d)));
-  //           // nb.sr(255 * rr);
-  //           // nb.sg(255 * rg);
-  //           // nb.sb(255 * rb);
-  //           // nb.sa(255);
-
-  //           q3.push(nb);
-  //         }
-  //       }
-  //     }
-  //   }
-  // }
-
-  // q3.sort((a, b) => b.d - a.d);
   const q2 = [];
   while (q3.length > 0) {
     const top2 = q3.pop();
